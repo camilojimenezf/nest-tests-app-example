@@ -1,7 +1,7 @@
 import { validate, ValidationError } from 'class-validator';
 import { LoginUserDto } from './login-user.dto';
 
-describe('CreateUserDto', () => {
+describe('LoginUserDto', () => {
   it('should have the correct properties', async () => {
     const dto = new LoginUserDto();
 
