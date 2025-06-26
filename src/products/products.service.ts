@@ -44,7 +44,7 @@ export class ProductsService {
 
       await this.productRepository.save(product);
 
-      return { ...product, images };
+      return { ...product, rawImages: images };
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -102,6 +102,7 @@ export class ProductsService {
 
   async findOnePlain(term: string) {
     const { images = [], ...rest } = await this.findOne(term);
+
     return {
       ...rest,
       images: images.map((image) => image.url),
@@ -113,8 +114,9 @@ export class ProductsService {
 
     const product = await this.productRepository.preload({ id, ...toUpdate });
 
-    if (!product)
+    if (!product) {
       throw new NotFoundException(`Product with id: ${id} not found`);
+    }
 
     // Create query runner
     const queryRunner = this.dataSource.createQueryRunner();
